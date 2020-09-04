@@ -1,0 +1,70 @@
+-------------------------------
+AskGamblers.com Automation Test
+-------------------------------
+
+Environment:
+
+IDE
+- JetBrains IntelliJ IDEA
+
+Build Tool
+- Maven
+
+Modules
+- Cucumber
+- Selenium
+- JUnit
+
+
+Notes:
+
+- Tests are configured to run with chromedriver.
+- A properties file (askgamblers.properties) is used to store details which may change on different environments.
+- Passwords in properties file would be best to at least be obfuscated, or else use a credential manager depending 
+  on the environment.
+- Checking email implemented to work with a Gmail email address.
+- Generally kept things simple for the purpose of this test, in a RL scenario there a things which would need more thought
+  such as better error handling, separation of concerns, and take more of a page object pattern approach.  
+
+---------------------------------
+Test Scenario 1: Successful Login
+---------------------------------
+
+Steps:
+ - Go to the login page
+ - Enter valid login credentials
+ - Click login button
+ - Verify user profile is present in topnav
+
+-----------------------------
+Test Scenario 2: Failed Login
+-----------------------------
+
+Steps:
+ - Go to the login age
+ - Enter non-existing login credentials
+ - Click login button
+ - Verify expected error message is present
+
+--------------------------------
+Test Scenario 3: Forgot Password
+--------------------------------
+
+Steps:
+ - Go to the forgot password page
+ - Enter a username
+ - Click button to reset password
+ - Check forgot password email in mailbox
+
+The check for email is simply checking that an email with the expected subject is received. This could be
+expanded to verify the received date and check email content.
+
+--------------------------------
+Test Scenario 4: Top Ten Casinos
+--------------------------------
+
+Steps:
+ - Go to the login page
+ - Enter valid login credentials
+ - Click login button
+ - Verify top 10 casino list is present
