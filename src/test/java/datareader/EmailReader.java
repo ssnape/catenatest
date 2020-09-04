@@ -1,3 +1,12 @@
+/**
+ *  The EmailReader class provides functionality related to processing
+ *  emails. Currently it works with Gmail and using IMAP.
+ *
+ * @author Arielle Bonnici
+ * @version 1.0
+ * @since 2020-09-04
+ */
+
 package datareader;
 
 import javax.mail.Flags;
@@ -21,6 +30,7 @@ public class EmailReader {
 
 
     public EmailReader(String email, String password) {
+        //Configure Gmail properties
         gmailProps =  new Properties();
         gmailProps.put("mail.imap.host", gmailHost);
         gmailProps.put("mail.imap.port", "993");
@@ -31,6 +41,11 @@ public class EmailReader {
         gmailPassword = password;
     }
 
+    /**
+     * Get all emails from Gmail inbox and delete them.
+     *
+     * @return True if no errors were encountered, false if there are errors
+     */
     public boolean clearMailbox() {
         Session emailSession = Session.getDefaultInstance(gmailProps);
 
@@ -65,6 +80,13 @@ public class EmailReader {
         return false;
     }
 
+    /**
+     * Get emails from a Gmail mailbox where subject matches a specified
+     * search string.
+     *
+     * @param subject String to search for in subject
+     * @return A Message list containing emails with matching subject
+     */
     public Message[] getEmailsBySubject(final String subject) {
         Session emailSession = Session.getDefaultInstance(gmailProps);
 

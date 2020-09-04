@@ -1,3 +1,12 @@
+/**
+ *  The ConfigReader class is used to load values from the environment
+ *  properties file. Each property has a corresponding get method.
+ *
+ * @author Arielle Bonnici
+ * @version 1.0
+ * @since 2020-09-04
+ */
+
 package datareader;
 
 import java.io.File;

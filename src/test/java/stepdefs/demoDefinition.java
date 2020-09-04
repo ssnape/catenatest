@@ -1,3 +1,11 @@
+/**
+ *  Test definitions for the features outline in sample.feature.
+ *
+ * @author Arielle Bonnici
+ * @version 1.0
+ * @since 2020-09-04
+ */
+
 package stepdefs;
 
 import io.cucumber.java.Before;
@@ -36,17 +44,19 @@ public class demoDefinition {
 
         System.setProperty("webdriver.chrome.driver", config.getDriverPath());
 
-        //Set chromedriver options to bypass captcha
+        //Set ChromeDriver options to bypass captcha
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-blink-features");
         options.addArguments("--disable-blink-features=AutomationControlled");
 
+        //Initialize ChromeDriver and WebDriverWait
         browser = new ChromeDriver(options);
         wait = new WebDriverWait(browser, 10);
     }
 
     @Before("@ForgotPassword")
     public void clearMailbox() {
+        //Clear mailbox before running Forgot Password test scenario
         EmailReader mailbox = new EmailReader(config.getGmailUser(), config.getGmailPasword());
         Assert.assertTrue(mailbox.clearMailbox());
     }
@@ -70,24 +80,29 @@ public class demoDefinition {
 
     @And("Enter correct login credentials")
     public void ennter_correct_login_credentials() {
+        //Fill username field with valid username from properties file
         WebElement txtUser = wait.until(ExpectedConditions.presenceOfElementLocated(By.name("_username")));
         txtUser.sendKeys(config.getUsername());
 
+        //Fill password field with valid password from properties file
         WebElement txtPassword = wait.until(ExpectedConditions.presenceOfElementLocated(By.name("_password")));
         txtPassword.sendKeys(config.getPassword());
     }
 
     @And("Enter incorrect login credentials")
     public void ennter_incorrect_login_credentials() {
+        //Fill username field with invalid username from properties file
         WebElement txtUser = wait.until(ExpectedConditions.presenceOfElementLocated(By.name("_username")));
         txtUser.sendKeys(config.getInvalidUsername());
 
+        //Fill password field with invalid password from properties file
         WebElement txtPassword = wait.until(ExpectedConditions.presenceOfElementLocated(By.name("_password")));
         txtPassword.sendKeys(config.getInvalidPassword());
     }
 
     @And("Enter my username in forgot password page")
     public void enter_username_in_forgot_password() {
+        //Fill username field from properties file
         WebElement txtUser = wait.until(
                 ExpectedConditions.presenceOfElementLocated(
                         By.id("forgotPassword_usernameOrEmail"))
@@ -97,12 +112,14 @@ public class demoDefinition {
 
     @When("I click the login button")
     public void click_login_button() {
+        //Click login button on login page
         WebElement loginButton = wait.until(ExpectedConditions.presenceOfElementLocated(By.name("login")));
         loginButton.click();
     }
 
     @When("I click reset password button")
     public void click_reset_password_button() {
+        //Click reset password button
         WebElement loginButton = wait.until(
                 ExpectedConditions.presenceOfElementLocated(
                         By.id("forgotPassword_resetPassword"))
@@ -120,9 +137,11 @@ public class demoDefinition {
 
     @Then ("My profile should be visible in the topnav")
     public void profile_should_be_visible_in_topnav() {
+        //Open profile div from topnac
         WebElement divProfile = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("profile")));
         divProfile.click();
 
+        //Find username span and verify username is present
         WebElement userSpan = wait.until(
                 ExpectedConditions.presenceOfElementLocated(
                         By.cssSelector("div.header p span:nth-of-type(2)"))
@@ -136,6 +155,7 @@ public class demoDefinition {
 
     @Then("I will get an invalid credentials error")
     public void invalid_credentials_error() {
+        //Find error span and verify expected text
         WebElement lblError = wait.until(
                 ExpectedConditions.presenceOfElementLocated(
                         By.cssSelector("div.login__box span.error__text"))
@@ -149,6 +169,7 @@ public class demoDefinition {
 
     @Then("I will receive an email to reset password")
     public void receive_email_to_reset_password() {
+        //Get rest password email(s) from mailbox by subject
         EmailReader mailbox = new EmailReader(config.getGmailUser(), config.getGmailPasword());
         Message[] matchingEmails = mailbox.getEmailsBySubject(config.getResetPasswordSubject());
 
@@ -162,6 +183,7 @@ public class demoDefinition {
 
     @Then("The top ten casinos are displayed on home page")
     public void top_ten_casinos_on_home_page() {
+        //Get the Top 10 Casinos div and verify 10 items are listed
         WebElement listTopTen = wait.until(
                 ExpectedConditions.presenceOfElementLocated(
                         By.cssSelector("div.top10--hp"))
